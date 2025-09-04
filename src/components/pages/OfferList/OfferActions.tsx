@@ -10,11 +10,13 @@ export default function OfferActions(offerData: rowType) {
 
     const handleDownload = async () => {
         try {
-            const reportBody = {
+            const reportBody = {            
                 items: offerData.items,
                 description: offerData.jobDescription,
             }
-
+            console.log(reportBody);
+            
+            
             const response = await fetch(`/api/offer/report`, {
                 method: "POST",
                 headers: {
@@ -22,13 +24,18 @@ export default function OfferActions(offerData: rowType) {
                 },
                 body: JSON.stringify(reportBody),
             });
+            
             const blob = await response.blob();
+            
             const url = window.URL.createObjectURL(blob);
-
+            
             const link = document.createElement('a');
             link.href = url;
-
-            link.download = "raport.xlsx";
+            
+            
+            const parsedBuildingNumber = JSON.parse(JSON.stringify(offerData)).buildingNumber.replaceAll(" ", "_");
+            console.log("parsed:" + parsedBuildingNumber);
+            link.download = `oferta_${parsedBuildingNumber}`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
