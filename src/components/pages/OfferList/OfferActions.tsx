@@ -32,9 +32,8 @@ export default function OfferActions(offerData: rowType) {
             const link = document.createElement('a');
             link.href = url;
             
-            
+        
             const parsedBuildingNumber = JSON.parse(JSON.stringify(offerData)).buildingNumber.replaceAll(" ", "_");
-            console.log("parsed:" + parsedBuildingNumber);
             link.download = `oferta_${parsedBuildingNumber}`;
             document.body.appendChild(link);
             link.click();
